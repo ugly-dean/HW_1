@@ -31,12 +31,9 @@ jobs:
           ./scripts/cov-gen.sh
       - name: Codecov 
         run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov chmod +x codecov ./codecov
-          chmod +x codecov
-          ./codecov
-      # - name: Getting code coverage data
-      #   uses: codecov/codecov-action@v2
-      #   with:
-      #     token: a0046d20-04a0-4ff3-87f1-b5d1a2bca5c6
-      #     files: coverage.xml
+      - name: Getting code coverage data
+        uses: codecov/codecov-action@v2
+        with:
+          token: 6241a459-ad22-4286-a183-1a3c2c12ede2
+          files: coverage.xml
           
