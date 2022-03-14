@@ -1,0 +1,34 @@
+name: Testing
+on: [ push ]
+defaults:
+  run:
+    shell: bash
+jobs:
+  Testing:
+    name: Run tests and generate coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Tests
+        run: |
+          sudo apt update
+          sudo apt install valgrind
+          export ASAN_OPTIONS=verify_asan_link_order=0
+          ./scripts/build.sh -tc
+          cd build
+          make
+          cd ..
+      - name: Run Tests tests_PhoneNumber
+        run: |
+          valgrind --tool=memcheck --leak-check=full ./build/tests_PhoneNumber
+          ./build/tests_PhoneNumberAddress
+          ./build/tests_PhoneNumberThread
+          ./build/tests_PhoneNumberUndefined
+      - name: Generate coverage report
+        run: |
+          ./scripts/cov-gen.sh
+      - name: Getting code coverage data
+        uses: codecov/codecov-action@v2
+        with:
+          token: a0046d20-04a0-4ff3-87f1-b5d1a2bca5c6
+          files: coverage.xml
