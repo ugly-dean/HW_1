@@ -14,6 +14,7 @@ jobs:
           sudo apt update
           sudo apt install valgrind
           export ASAN_OPTIONS=verify_asan_link_order=0
+          chmod +x ./scripts/build.sh
           ./scripts/build.sh -tc
           cd build
           make
@@ -26,6 +27,7 @@ jobs:
           ./build/tests_PhoneNumberUndefined
       - name: Generate coverage report
         run: |
+          chmod +x ./scripts/cov-gen.sh
           ./scripts/cov-gen.sh
       - name: Codecov 
         run: |
