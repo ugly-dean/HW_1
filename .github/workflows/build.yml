@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Building
         run: |
-          sudo ./scripts/build.sh
+          chmod +x ./scripts/build.sh
+          ./scripts/build.sh
           cd build
           make
