@@ -32,12 +32,12 @@ echo "START INSTALLING cppcheck"
 sudo apt-get -qq install cppcheck
 
 echo "START ANALYZE cppcheck"
-cppcheck main.c phone_lib tests_phone_lib --enable=all --inconclusive --error-exitcode=1 -I ./phone_lib --suppress=missingIncludeSystem
+cppcheck main.c phone_lib --enable=all --inconclusive --error-exitcode=1 -I ./phone_lib --suppress=missingIncludeSystem
 cppcheck tests
 RET_CODE=$(($RET_CODE + $?))
 
 RET_CODE=0
-SOURCES_DIRS=("main.c" "tests_phone_lib" "phone_lib")
+SOURCES_DIRS=("main.c" "phone_lib")
 for dir in ${SOURCES_DIRS[*]}
 do
     echo "START ANALYZE cpplint"
