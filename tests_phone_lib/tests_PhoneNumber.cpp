@@ -10,7 +10,9 @@ TEST(readName, testNormalName) {
     FILE * stdin_f = fmemopen((char *)name, strlen(name), "r");
     char * name_r = readName(stdin_f);
     EXPECT_EQ(0, strcmp(name_n, name_r));
-    if (name_r) free(name_r); name_r = NULL;
+    if (name_r) {
+        free(name_r); name_r = NULL;
+    }
     fclose(stdin_f);
 }
 
@@ -20,7 +22,9 @@ TEST(readName, testLongName) {
     FILE * stdin_f = fmemopen((char *)name, strlen(name), "r");
     char * name_r = readName(stdin_f);
     EXPECT_EQ(0, strcmp(name_n, name_r));
-    if (name_r) free(name_r);
+    if (name_r) {
+        free(name_r);
+    }
     fclose(stdin_f);
 }
 
@@ -30,7 +34,9 @@ TEST(readName, testExtendedName) {
     FILE * stdin_f = fmemopen((char *)name, strlen(name), "r");
     char * name_r = readName(stdin_f);
     EXPECT_EQ(0, strcmp(name_n, name_r));
-    if (name_r) free(name_r);
+    if (name_r) {
+        free(name_r);
+    }
     fclose(stdin_f);
 }
 
@@ -39,7 +45,9 @@ TEST(readName, testNoName) {
     FILE * stdin_f = fmemopen((char *)name, strlen(name), "r");
     char * name_r = readName(stdin_f);
     EXPECT_EQ(NULL, name_r);
-    if (name_r) free(name_r);
+    if (name_r) {
+        free(name_r);
+    }
     fclose(stdin_f);
 }
 
@@ -49,7 +57,9 @@ TEST(readPhone, testNormalPhone) {
     FILE * stdin_f = fmemopen((char *)phone, strlen(phone), "r");
     char * phone_r = readPhone(stdin_f);
     EXPECT_EQ(0, strcmp(phone_n, phone_r));
-    if (phone_r) free(phone_r); phone_r = NULL;
+    if (phone_r) {
+        free(phone_r); phone_r = NULL;
+    }
     fclose(stdin_f);
 }
 
@@ -58,7 +68,9 @@ TEST(readPhone, testInvalidLongPhone) {
     FILE * stdin_f = fmemopen((char *)phone, strlen(phone), "r");
     char * phone_r = readPhone(stdin_f);
     EXPECT_EQ(NULL, phone_r);
-    if (phone_r) free(phone_r);
+    if (phone_r) {
+        free(phone_r);
+    }
     fclose(stdin_f);
 }
 
@@ -67,7 +79,9 @@ TEST(readPhone, testInvalidShortPhone) {
     FILE * stdin_f = fmemopen((char *)phone, strlen(phone), "r");
     char * phone_r = readPhone(stdin_f);
     EXPECT_EQ(NULL, phone_r);
-    if (phone_r) free(phone_r);
+    if (phone_r) {
+        free(phone_r);
+    }
     fclose(stdin_f);
 }
 
@@ -76,7 +90,9 @@ TEST(readPhone, testNoPhone) {
     FILE * stdin_f = fmemopen((char *)phone, strlen(phone), "r");
     char * phone_r = readPhone(stdin_f);
     EXPECT_EQ(NULL, phone_r);
-    if (phone_r) free(phone_r);
+    if (phone_r) {
+        free(phone_r);
+    }
     fclose(stdin_f);
 }
 
@@ -160,5 +176,5 @@ TEST(printAllContacts, testNormal) {
         free(conts[i].netCode);
         free(conts[i].phone);
     }
-     free(conts);
+    free(conts);
 }

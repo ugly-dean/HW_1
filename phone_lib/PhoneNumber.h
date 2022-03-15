@@ -1,5 +1,5 @@
-#ifndef HW_1_PHONE_LIB_PHONENUMBER_H_
-#define HW_1_PHONE_LIB_PHONENUMBER_H_
+#ifndef PHONE_LIB_PHONENUMBER_H_
+#define PHONE_LIB_PHONENUMBER_H_
 
 #include <stdio.h>
 
@@ -19,4 +19,4 @@ int contCmp(const void* l, const void* r);
 
 void printAllContacts(PhoneNumber* contacts, size_t size, FILE* fp);
 
-#endif  // HW_1_PHONE_LIB_PHONENUMBER_H_
+#endif  // PHONE_LIB_PHONENUMBER_H_

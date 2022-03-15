@@ -2,11 +2,12 @@
 
 LOG_FILE="./tmp/build.log"
 TMP_DIR="tmp"
+BUILD_DIR="./build"
 mkdir -p $TMP_DIR
 touch $LOG_FILE
-mkdir $BUILD_DIR && echo "Creating $BUILD_DIR directory"
+mkdir -p $BUILD_DIR && echo "Creating $BUILD_DIR directory"
 
-Installing fbinfer
+# Installing fbinfer
 echo "START INSTALLING fbinfer"
 FILE=/opt/infer-linux64-v$VERSION/bin/infer
 if test -f "$FILE"; then
@@ -22,16 +23,16 @@ fi
 echo "START INSTALLING cpplint"
 pip -q install cpplint
 
-# Installing scan-build
-echo "START INSTALLING scan-build"
-sudo apt-get -qq install clang-tools
+# # Installing scan-build
+# echo "START INSTALLING scan-build"
+# sudo apt-get -qq install clang-tools
 
 # Installing cppcheck
 echo "START INSTALLING cppcheck"
 sudo apt-get -qq install cppcheck
 
 echo "START ANALYZE cppcheck"
-cppcheck --language=c -std=c99 project
+cppcheck main.c phone_lib tests_phone_lib --enable=all --inconclusive --error-exitcode=1 -I ./phone_lib --suppress=missingIncludeSystem
 cppcheck tests
 RET_CODE=$(($RET_CODE + $?))
 
