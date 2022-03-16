@@ -1,30 +1,3 @@
-# cmake_minimum_required(VERSION 3.16)
-# project(contacts)
-
-# set(CMAKE_C_STANDARD 99)
-# set(CMAKE_C_FLAGS "-Werror -Wextra -Wpedantic -Wall")
-
-# set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
-
-# set(PROJECT_NAME contacts)
-
-# add_subdirectory(PhoneNumber)
-
-# message("PHONE_LIB_INCLUDE_DIRS = ${PHONE_LIB_INCLUDE_DIRS}")
-# message("PHONE_LIB_LIBRARIES = ${PHONE_LIB_LIBRARIES}")
-
-# add_executable(${PROJECT_NAME} main.c)
-
-# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
-
-# target_include_directories(${PROJECT_NAME} PUBLIC ${PHONE_LIB_INCLUDE_DIRS})
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${PHONE_LIB_LIBRARIES})
-
-# add_subdirectory(tests_PhoneNumber)
-
-#==========================================
-
 cmake_minimum_required(VERSION 3.16)
 project(ContactBook)
 
@@ -51,8 +24,6 @@ if (COVERAGE)
     message("Enabled code coverage report generation")
     target_compile_options(${PROJECT_CORE_LIB_NAME} PUBLIC "--coverage" "-O0")
     target_link_libraries(${PROJECT_CORE_LIB_NAME} PUBLIC gcov)
-#    target_compile_options(${PROJECT_INTERFACE_LIB_NAME} PUBLIC "--coverage")
-#    target_link_libraries(${PROJECT_INTERFACE_LIB_NAME} PUBLIC gcov)
 endif ()
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/main.c)
@@ -127,7 +98,6 @@ option(LINTERS-CHECK "Enable clang-tidy check" OFF)
 if (LINTERS-CHECK)
     message("Enabled clang-tidy sources check")
     file(GLOB SOURCES *.c)
-#    set(SOURCES ../project/src/solver.c ../project/main.c)
 
     add_custom_target(
             clang-tidy-check-code clang-tidy -p ${CMAKE_BINARY_DIR}/compile_commands.json  ${SOURCES}

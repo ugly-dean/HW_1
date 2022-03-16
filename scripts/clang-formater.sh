@@ -7,8 +7,6 @@ mkdir -p $TMP_DIR
 touch $LOG_FILE
 touch $TMP_FORM_FILE
 
-#sudo apt install clang-format >> $LOG_FILE
-
 STYLE="Google"
 FORMATING_FILES=("./main.c" \
                  "./phone_lib/PhoneNumber.h" \
