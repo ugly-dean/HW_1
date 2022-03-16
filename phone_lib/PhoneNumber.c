@@ -15,7 +15,7 @@ const size_t PHONE_T_SIZE = 8;
 
 char *read_name(FILE *fp) {
   if (!fp) {
-    printf(EMPTY_FP);
+    printf("%s", EMPTY_FP);
     return NULL;
   }
   int c;
@@ -47,7 +47,7 @@ char *read_name(FILE *fp) {
 
 char *read_phone(FILE *fp) {
   if (!fp) {
-    printf(EMPTY_FP);
+    printf("%s", EMPTY_FP);
     return NULL;
   }
   int c;
@@ -93,7 +93,7 @@ int cont_cmp(const void *l, const void *r) {
 
 int print_all_contacts(Phone_number *contacts, size_t size, FILE *fp) {
   if (!fp) {
-    printf(EMPTY_FP);
+    printf("%s", EMPTY_FP);
     return EXIT_FAILURE;
   }
   qsort(contacts, size, sizeof(Phone_number), cont_cmp);
@@ -126,7 +126,6 @@ void free_contacts(Phone_number *contacts, size_t size) {
       }
     }
     free(contacts);
-    contacts = NULL;
   }
 }
 
@@ -147,11 +146,11 @@ const size_t COMMAND_SIZE = 6;
 
 int main_work(FILE *in, FILE *out) {
   if (!in) {
-    printf(EMPTY_IN);
+    printf("%s", EMPTY_IN);
     return EXIT_FAILURE;
   }
   if (!out) {
-    printf(EMPTY_OUT);
+    printf("%s", EMPTY_OUT);
     return EXIT_FAILURE;
   }
 
