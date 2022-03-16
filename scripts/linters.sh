@@ -33,7 +33,6 @@ sudo apt-get -qq install cppcheck
 
 echo "START ANALYZE cppcheck"
 cppcheck main.c phone_lib --enable=all --inconclusive --error-exitcode=1 -I ./phone_lib --suppress=missingIncludeSystem
-cppcheck tests
 RET_CODE=$(($RET_CODE + $?))
 
 RET_CODE=0
