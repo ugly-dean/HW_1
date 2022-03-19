@@ -23,8 +23,8 @@ int main_work(FILE* in, FILE* out);
 
 void free_contacts(Phone_number* contacts, size_t size);
 
-void run_new(FILE* in, FILE* out, Phone_number** contacts,
-             size_t* size, size_t* cont);
+void run_new(FILE* in, FILE* out, Phone_number** contacts, size_t* size,
+             size_t* cont);
 
 void get_execute_cmd(FILE* in, FILE* out);
 

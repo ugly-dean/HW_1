@@ -112,7 +112,7 @@ int print_all_contacts(Phone_number *contacts, size_t size, FILE *fp) {
     char first[4] = {contacts[i].phone_t[0], contacts[i].phone_t[1],
                      contacts[i].phone_t[2], '\0'};
     char second[3] = {contacts[i].phone_t[3], contacts[i].phone_t[4], '\0'};
-    char third[3] = {contacts[i].phone_t[5], contacts[i].phone_t[6], '\0'};   
+    char third[3] = {contacts[i].phone_t[5], contacts[i].phone_t[6], '\0'};
     fprintf(fp, "Owner: %s\n", contacts[i].name_t);
     fprintf(fp, "Phone: 8(%s)%s-%s-%s\n", contacts[i].net_t, first, second,
             third);
@@ -185,8 +185,8 @@ void get_execute_cmd(FILE *in, FILE *out) {
   free_contacts(contacts, size);
 }
 
-void run_new(FILE* in, FILE* out, Phone_number **contacts,
-             size_t *size, size_t *cont) {
+void run_new(FILE* in, FILE* out, Phone_number **contacts, size_t *size,
+             size_t *cont) {
   fprintf(out, ENTER_NAME);
   char *name = read_name(in);
   if (name) {
@@ -195,7 +195,7 @@ void run_new(FILE* in, FILE* out, Phone_number **contacts,
     if (phone) {
       if (*cont == *size) {
         *size = *size + MAX_CONTACTS;
-        Phone_number *tmp = 
+        Phone_number *tmp =
             (Phone_number *)realloc(*contacts, sizeof(Phone_number) * *size);
         *contacts = tmp;
       }
