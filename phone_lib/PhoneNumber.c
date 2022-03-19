@@ -85,7 +85,6 @@ Phone_number contact_parser(char *name, char *phone) {
   contact.name_t = (char *)calloc(strlen(name) + 1, sizeof(char));
   contact.net_t = (char *)calloc(NET_CODE_T_SIZE, sizeof(char));
   contact.phone_t = (char *)calloc(PHONE_T_SIZE, sizeof(char));
-
   if (contact.name_t && contact.net_t && contact.phone_t) {
     strncpy(contact.name_t, name, strlen(name));
     strncpy(contact.net_t, phone + 1, 3);
@@ -109,13 +108,11 @@ int print_all_contacts(Phone_number *contacts, size_t size, FILE *fp) {
     return EXIT_FAILURE;
   }
   qsort(contacts, size, sizeof(Phone_number), cont_cmp);
-
   for (size_t i = 0; i < size; ++i) {
     char first[4] = {contacts[i].phone_t[0], contacts[i].phone_t[1],
                      contacts[i].phone_t[2], '\0'};
     char second[3] = {contacts[i].phone_t[3], contacts[i].phone_t[4], '\0'};
-    char third[3] = {contacts[i].phone_t[5], contacts[i].phone_t[6], '\0'};
-    
+    char third[3] = {contacts[i].phone_t[5], contacts[i].phone_t[6], '\0'};   
     fprintf(fp, "Owner: %s\n", contacts[i].name_t);
     fprintf(fp, "Phone: 8(%s)%s-%s-%s\n", contacts[i].net_t, first, second,
             third);
@@ -161,9 +158,7 @@ int main_work(FILE *in, FILE *out) {
     printf("%s", EMPTY_OUT);
     return EXIT_FAILURE;
   }
-
   get_execute_cmd(in, out);
-  
   return EXIT_SUCCESS;
 }
 
@@ -173,20 +168,15 @@ void get_execute_cmd(FILE *in, FILE *out) {
   int status = 1;
   size_t size = MAX_CONTACTS;
   Phone_number *contacts = (Phone_number *)calloc(size, sizeof(Phone_number));
-
   while (status > 0) {
     fprintf(out, ENTER_STRING);
     if (fscanf(in, COMMAND_FORMAT, command) == 1) {
-
       if (strcmp(command, CMD_NEW) == 0) {
         run_new(in, out, &contacts, &size, &cont);
-
       } else if (strcmp(command, CMD_PRINT) == 0) {
         print_all_contacts(contacts, cont, out);
-
       } else if (strcmp(command, CMD_EXIT) == 0) {
         status = -1;
-
       } else {
         fprintf(out, WRONG_COMMAND);
       }
@@ -195,30 +185,26 @@ void get_execute_cmd(FILE *in, FILE *out) {
   free_contacts(contacts, size);
 }
 
-void run_new(FILE *in, FILE *out, Phone_number **contacts,
-                              size_t *size, size_t *cont) {
+void run_new(FILE* in, FILE* out, Phone_number **contacts,
+             size_t *size, size_t *cont) {
   fprintf(out, ENTER_NAME);
   char *name = read_name(in);
-
   if (name) {
     fprintf(out, ENTER_PHONE);
     char *phone = read_phone(in);
-
     if (phone) {
       if (*cont == *size) {
         *size = *size + MAX_CONTACTS;
-        Phone_number *tmp = (Phone_number *)realloc(
-            *contacts, sizeof(Phone_number) * *size);
+        Phone_number *tmp = 
+            (Phone_number *)realloc(*contacts, sizeof(Phone_number) * *size);
         *contacts = tmp;
       }
       (*contacts)[(*cont)++] = contact_parser(name, phone);
       free(phone);
-
     } else {
       fprintf(out, INVALID_PHONE);
     }
     free(name);
-    
   } else {
     fprintf(out, INVALID_NAME);
   }
