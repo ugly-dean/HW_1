@@ -4,6 +4,30 @@ extern "C" {
     #include "PhoneNumber.h"
 }
 
+TEST(get_name_chars, testNormalName) {
+    char * str = "Dean\n";
+    FILE *in = fmemopen(str, strlen(str), "r");
+    size_t size = 20;
+    char *name = (char *)calloc(size, sizeof(char));
+    get_name_chars(in, &name, &size);
+    char * name_n = "Dean";
+    EXPECT_EQ(0, strcmp(name_n, name));
+    free(name);
+    fclose(in);
+}
+
+TEST(get_name_chars, testNoName) {
+    char * str = "\n";
+    FILE *in = fmemopen(str, strlen(str), "r");
+    size_t size = 20;
+    char *name = (char *)calloc(size, sizeof(char));
+    EXPECT_EQ(0, get_name_chars(in, &name, &size));
+    char * name_n = "";
+    EXPECT_EQ(0, strcmp(name_n, name));
+    free(name);
+    fclose(in);
+}
+
 TEST(read_name, testNULLfp) {
     EXPECT_EQ(NULL, read_name(NULL));
 }
@@ -55,6 +79,35 @@ TEST(read_name, testNoName) {
         free(name_r);
     }
     fclose(stdin_f);
+}
+
+TEST(get_phone_chars, testNormalPhone) {
+    char * str = "89771320591\n";
+    FILE *in = fmemopen(str, strlen(str), "r");
+    char *phone = (char *)calloc(12, 1);
+    EXPECT_EQ(EXIT_SUCCESS, get_phone_chars(in, &phone));
+    char * phone_n = "89771320591";
+    EXPECT_EQ(0, strcmp(phone_n, phone));
+    fclose(in);
+    free(phone);
+}
+
+TEST(get_phone_chars, testLongPhone) {
+    char * str = "89771320591222\n";
+    FILE *in = fmemopen(str, strlen(str), "r");
+    char *phone = (char *)calloc(12, 1);
+    EXPECT_EQ(EXIT_FAILURE, get_phone_chars(in, &phone));
+    fclose(in);
+    free(phone);
+}
+
+TEST(get_phone_chars, testShortPhone) {
+    char * str = "897713205\n";
+    FILE *in = fmemopen(str, strlen(str), "r");
+    char *phone = (char *)calloc(12, 1);
+    EXPECT_EQ(EXIT_FAILURE, get_phone_chars(in, &phone));
+    fclose(in);
+    free(phone);
 }
 
 TEST(read_phone, testNULLfp) {
@@ -147,7 +200,7 @@ TEST(contact_parser, testNormalContact) {
 //         free(phone);
 //     }
 //     fclose(stdin_f);
-//     free_contacts(conts, size);
+//     free_contacts(&conts, size);
 //     EXPECT_EQ(NULL, conts);
 // }
 
@@ -188,7 +241,7 @@ Phone: 8(100)000-00-00\n\0",
         "Owner: Dean\nPhone: 8(977)132-05-91\n\0", 
         "Owner: Dmitry\nPhone: 8(977)132-05-92\n\0", 
         "Owner: Ivan\nPhone: 8(977)379-28-99\n\0"};
-     FILE * stdout_f = fopen("output.txt", "w");
+    FILE * stdout_f = fopen("output.txt", "w");
     int res = print_all_contacts(conts, size, stdout_f);
     EXPECT_EQ(EXIT_SUCCESS, res);
     fclose(stdout_f);
@@ -217,6 +270,62 @@ Phone: 8(100)000-00-00\n\0",
     //printf("\n%s\n\n%s\n", lines, output);
     //free(lines);
     free_contacts(conts, size);
+}
+
+TEST(run_new, testNormal) {
+    char *str_in = "\nDean\n89771320591\n";
+    const size_t STR = 1000;
+    char str_out[STR];
+    FILE *in = fmemopen(str_in, strlen(str_in), "r");
+    FILE *out = fmemopen(str_out, STR, "w");
+    size_t size = 1;
+    size_t cont = 0;
+    Phone_number * conts = (Phone_number *)calloc(size, sizeof(Phone_number));
+    run_new(in, out, &conts, &size, &cont);
+    fclose(in);
+    fclose(out);
+    char *out_n = "Enter owner's name:\nEnter phone number:\n";
+    //printf("\n%s\n\n%s", out_n, str_out);
+    EXPECT_EQ(0, strcmp(out_n, str_out));
+    free_contacts(conts, cont);
+}
+
+TEST(run_new, testNoName) {
+    char *str_in = "\n\n89771320591\n";
+    const size_t STR = 1000;
+    char str_out[STR];
+    FILE *in = fmemopen(str_in, strlen(str_in), "r");
+    FILE *out = fmemopen(str_out, STR, "w");
+    size_t size = 1;
+    size_t cont = 0;
+    Phone_number * conts = (Phone_number *)calloc(size, sizeof(Phone_number));
+    run_new(in, out, &conts, &size, &cont);
+    fclose(in);
+    fclose(out);
+    char *out_n = "Enter owner's name:\n\
+Invalid owner's name! Try again...\n";
+    //printf("\n%s\n\n%s", out_n, str_out);
+    EXPECT_EQ(0, strcmp(out_n, str_out));
+    free_contacts(conts, cont);
+}
+
+TEST(run_new, testInvalidPhone) {
+    char *str_in = "\nDean\n0591\n";
+    const size_t STR = 1000;
+    char str_out[STR];
+    FILE *in = fmemopen(str_in, strlen(str_in), "r");
+    FILE *out = fmemopen(str_out, STR, "w");
+    size_t size = 1;
+    size_t cont = 0;
+    Phone_number * conts = (Phone_number *)calloc(size, sizeof(Phone_number));
+    run_new(in, out, &conts, &size, &cont);
+    fclose(in);
+    fclose(out);
+    char *out_n = "Enter owner's name:\nEnter phone number:\n\
+Invalid phone number! Try again...\n";
+    //printf("\n%s\n\n%s", out_n, str_out);
+    EXPECT_EQ(0, strcmp(out_n, str_out));
+    free_contacts(conts, cont);
 }
 
 TEST(main_work, testNULLio) {
