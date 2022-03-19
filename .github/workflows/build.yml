@@ -1,0 +1,17 @@
+name: Building
+on: [ push ]
+defaults:
+  run:
+    shell: bash
+jobs:
+  Building:
+    name: Build my solution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Building
+        run: |
+          chmod +x ./scripts/build.sh
+          ./scripts/build.sh
+          cd build
+          make
